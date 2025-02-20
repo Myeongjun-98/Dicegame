@@ -1,43 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DiceGame</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
     <div>
-        <h1>Dice Battle!</h1>   <!--머리말-->   
+      <h1>Dice Battle!</h1>
+      <!--머리말-->
     </div>
-    <div id="gameBox">  <!--게임공간 전체를 특정함-->
-        <div class="content">   <!--실질적인 공간-->
-            <header>    <!--content의 상단부-->
-                <div class="com">   <!--?-->
-                </div>
-            </header>
-            <main>  <!--가운데-->
-                <div class="screen">
-                    <div class="comDice">   <!--중앙 공간의 왼쪽부분(컴퓨터 값)-->
-                        <img src="" alt="">
-                    </div>
-                    <div id="versus">
-                        <h2>VS</h2>     <!--VS-->
-                    </div>
-                    <div class="myDice">    <!--중앙공간의 오른쪽부분(나의 값)-->
-                        <img src="" alt="">
-                    </div>
-                </div>
-            </main>
-            <footer>
-                <div class="my">    <!--?-->
-
-                </div>
-            </footer>   <!--content의 하단부-->
-        </div>
+    <div id="gameBox">
+      <!--게임공간 전체를 특정함-->
+      <div class="content">
+        <!--실질적인 공간-->
+        <header>
+          <!--content의 상단부-->
+          <div class="countbox">
+            <div class="count"></div>
+            <div class="count"></div>
+            <div class="count"></div>
+            <div class="count"></div>
+          </div>
+        </header>
+        <main>
+          <!--가운데-->
+          <div class="screen">
+            <div class="comsum">
+              <!--중앙 공간의 왼쪽부분(컴퓨터 값)-->
+              <img src="" alt="" />
+            </div>
+            <div id="versus">
+              <h2>VS</h2>
+              <!--VS-->
+            </div>
+            <div class="mysum">
+              <!--중앙공간의 오른쪽부분(나의 값)-->
+              <img src="" alt="" />
+            </div>
+          </div>
+        </main>
+        <footer>
+          <div class="com"><!--?--></div>
+          <button class="btn">ROLL!</button>
+          <div class="my"><!--?--></div>
+        </footer>
+        <!--content의 하단부-->
+      </div>
     </div>
-
 
     <script src="index.js"></script>
-</body>
+  </body>
 </html>
