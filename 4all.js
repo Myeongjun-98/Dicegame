@@ -1,4 +1,4 @@
-let blackDice = [
+let whiteDice = [
   // 검정주사위
   "https://cdn-icons-png.flaticon.com/128/10826/10826863.png",
   "https://cdn-icons-png.flaticon.com/128/10826/10826864.png",
@@ -25,6 +25,7 @@ let myResult = [];
 let comResult = [];
 let myFinal;
 let comFinal;
+const img = document.createElement("img"); // <img> 요소 생성
 
 const makeRandomNumber = () => {
   const value = Math.floor(Math.random() * 6 + 1);
@@ -40,8 +41,11 @@ button.onclick = () => {
     console.log(comResult[i]); //확인용
   }
   // 더하는 거
-  console.log(myResult[0] + myResult[1] + myResult[2] + myResult[3]);
-  console.log(comResult[0] + comResult[1] + comResult[2] + comResult[3]);
+  myFinal = myResult[0] + myResult[1] + myResult[2] + myResult[3];
+  comFinal = comResult[0] + comResult[1] + comResult[2] + comResult[3];
+
+  console.log(myFinal); // 확인용
+  console.log(comFinal); // 확인용
 
   // 승패 판단
   if (myFinal === comFinal) {
@@ -51,3 +55,12 @@ button.onclick = () => {
     return alert("이김");
   } else return alert("짐");
 };
+
+///
+
+const myDice = document.querySelector(".myDice");
+
+myResult.forEach((num) => {
+  img.src = redDice[num - 1]; // 숫자에 해당하는 이미지 소스 지정 (0부터 시작하므로 num-1)
+  myDice.appendChild(img); // div에 이미지 추가
+});
