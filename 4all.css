@@ -7,6 +7,10 @@
   text-align: center;
 }
 
+body {
+  max-width: 1000px;
+}
+
 #game {
   display: flex;
   height: 560px;
@@ -24,8 +28,7 @@
   width: 25%;
 }
 
-.myScore :first-child,
-.comScore :first-child {
+.title {
   height: 20%;
   display: flex;
   justify-content: center;
@@ -43,6 +46,18 @@
   width: 50%;
 }
 .myNum {
+  width: 50%;
+}
+
+.comScoreInfo {
+  display: flex;
+  height: 80%;
+}
+
+.comDice {
+  width: 50%;
+}
+.comNum {
   width: 50%;
 }
 
