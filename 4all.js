@@ -25,42 +25,83 @@ let myResult = [];
 let comResult = [];
 let myFinal;
 let comFinal;
-const img = document.createElement("img"); // <img> 요소 생성
 
 const makeRandomNumber = () => {
+  // 랜덤값 뱉는 함수
   const value = Math.floor(Math.random() * 6 + 1);
   return value;
 };
 
+const myDice = document.querySelector(".myDice");
+const comDice = document.querySelector(".comDice");
+const myBoard = document.querySelector(".myBoard");
+const comBoard = document.querySelector(".comBoard");
+
+let myBoardElements = [];
+let comBoardElements = [];
+for (let i = 0; i < 4; i++) {
+  // 나의 주사위
+  const myImg = document.createElement("img");
+  myImg.alt = `My dice ${i + 1}`;
+  myImg.src = redDice[0]; // 초기 1번면
+  myBoard.appendChild(myImg);
+  myBoardElements.push(myImg);
+
+  // 컴퓨터 주사위
+  const comImg = document.createElement("img");
+  comImg.alt = `Computer dice ${i + 1}`;
+  comImg.src = whiteDice[0]; // 초기 1번면
+  comBoard.appendChild(comImg);
+  comBoardElements.push(comImg);
+}
+
 //   click 시 나/컴퓨터 배열에 랜덤값 4가지를 생성
 button.onclick = () => {
-  for (i = 0; i < 4; i++) {
-    myResult.push(makeRandomNumber());
-    console.log(myResult[i]); //확인용
-    comResult.push(makeRandomNumber());
-    console.log(comResult[i]); //확인용
-  }
-  // 더하는 거
-  myFinal = myResult[0] + myResult[1] + myResult[2] + myResult[3];
-  comFinal = comResult[0] + comResult[1] + comResult[2] + comResult[3];
+  // 애니메이션 효과: 100ms 간격으로 주사위 값을 계속 업데이트
+  let intervalId = setInterval(() => {
+    for (let i = 0; i < 4; i++) {
+      let myValue = makeRandomNumber();
+      myBoardElements[i].src = redDice[myValue - 1];
+      myBoardElements[i].alt = `${myValue}`;
 
-  console.log(myFinal); // 확인용
-  console.log(comFinal); // 확인용
+      let comValue = makeRandomNumber();
+      comBoardElements[i].src = whiteDice[comValue - 1];
+      comBoardElements[i].alt = `${comValue}`;
+    }
+  }, 150);
 
-  // 승패 판단
-  if (myFinal === comFinal) {
-    return alert("비김");
-  }
-  if (myFinal > comFinal) {
-    return alert("이김");
-  } else return alert("짐");
+  setTimeout(() => {
+    // 2초 후 애니메이션 멈춤 및 최종 값 반영
+    clearInterval(intervalId);
+
+    setTimeout(() => {
+      let mySum = 0;
+      let comSum = 0;
+
+      // 최종 값으로 다시 업데이트하고 합산
+      for (let i = 0; i < 4; i++) {
+        let myFinalValue = makeRandomNumber();
+        myBoardElements[i].src = redDice[myFinalValue - 1];
+        myBoardElements[i].alt = `${myFinalValue}`;
+        mySum += myFinalValue;
+
+        let comFinalValue = makeRandomNumber();
+        comBoardElements[i].src = whiteDice[comFinalValue - 1];
+        comBoardElements[i].alt = `${comFinalValue}`;
+        comSum += comFinalValue;
+      }
+
+      if (mySum === comSum) {
+        alert("Draw!");
+      }
+      if (mySum > comSum) {
+        alert("You win!");
+      }
+      if (mySum < comSum) {
+        alert("Computer wins!");
+      }
+      console.log(mySum);
+      console.log(comSum);
+    }, 500);
+  }, 2000);
 };
-
-///
-
-const myDice = document.querySelector(".myDice");
-
-myResult.forEach((num) => {
-  img.src = redDice[num - 1]; // 숫자에 해당하는 이미지 소스 지정 (0부터 시작하므로 num-1)
-  myDice.appendChild(img); // div에 이미지 추가
-});
