@@ -74,23 +74,28 @@ button.onclick = () => {
     // 2초 후 애니메이션 멈춤 및 최종 값 반영
     clearInterval(intervalId);
 
+    let mySum = 0;
+    let comSum = 0;
+
+    // 최종 값으로 다시 업데이트하고 합산
+    for (let i = 0; i < 4; i++) {
+      let myFinalValue = makeRandomNumber();
+      myBoardElements[i].src = redDice[myFinalValue - 1];
+      myBoardElements[i].alt = `${myFinalValue}`;
+      mySum += myFinalValue;
+
+      let comFinalValue = makeRandomNumber();
+      comBoardElements[i].src = whiteDice[comFinalValue - 1];
+      comBoardElements[i].alt = `${comFinalValue}`;
+      comSum += comFinalValue;
+    }
+
+    //todo
+    // scoreboard에 위 코드의 최종 값을 불러와야댐
+    //todo
+
     setTimeout(() => {
-      let mySum = 0;
-      let comSum = 0;
-
-      // 최종 값으로 다시 업데이트하고 합산
-      for (let i = 0; i < 4; i++) {
-        let myFinalValue = makeRandomNumber();
-        myBoardElements[i].src = redDice[myFinalValue - 1];
-        myBoardElements[i].alt = `${myFinalValue}`;
-        mySum += myFinalValue;
-
-        let comFinalValue = makeRandomNumber();
-        comBoardElements[i].src = whiteDice[comFinalValue - 1];
-        comBoardElements[i].alt = `${comFinalValue}`;
-        comSum += comFinalValue;
-      }
-
+      // 애니메이션 이후 값을 고정 및 반영하기 위해 0,5초 지연
       if (mySum === comSum) {
         alert("Draw!");
       }
