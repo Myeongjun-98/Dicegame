@@ -26,6 +26,10 @@ let comResult = [];
 let myFinal;
 let comFinal;
 
+// 주사위 개수를 저장할 전역 변수
+let myDiceCount = [0, 0, 0, 0, 0, 0]; // 1~6 주사위 개수 저장
+let comDiceCount = [0, 0, 0, 0, 0, 0];
+
 const makeRandomNumber = () => {
   // 랜덤값 뱉는 함수
   const value = Math.floor(Math.random() * 6 + 1);
@@ -55,9 +59,18 @@ for (let i = 0; i < 4; i++) {
   comBoardElements.push(comImg);
 }
 
-//   click 시 나/컴퓨터 배열에 랜덤값 4가지를 생성
+// 점수 보드 업데이트 함수 (누적된 개수 표시)
+function updateScoreboard() {
+  const myNumDivs = document.querySelectorAll(".myNum div");
+  const comNumDivs = document.querySelectorAll(".comNum p");
+
+  for (let i = 0; i < 6; i++) {
+    myNumDivs[i].textContent = myDiceCount[i] > 0 ? myDiceCount[i] : "0";
+    comNumDivs[i].textContent = comDiceCount[i] > 0 ? comDiceCount[i] : "0";
+  }
+}
+
 button.onclick = () => {
-  // 애니메이션 효과: 100ms 간격으로 주사위 값을 계속 업데이트
   let intervalId = setInterval(() => {
     for (let i = 0; i < 4; i++) {
       let myValue = makeRandomNumber();
@@ -71,44 +84,42 @@ button.onclick = () => {
   }, 150);
 
   setTimeout(() => {
-    // 2초 후 애니메이션 멈춤 및 최종 값 반영
     clearInterval(intervalId);
 
     let mySum = 0;
     let comSum = 0;
 
-    // 최종 값으로 다시 업데이트하고 합산
+    // 주사위 굴리기 결과 반영 및 개수 **누적**
+    let newMyDiceCount = [0, 0, 0, 0, 0, 0]; // 새로운 판에서의 개수
+    let newComDiceCount = [0, 0, 0, 0, 0, 0];
+
     for (let i = 0; i < 4; i++) {
       let myFinalValue = makeRandomNumber();
       myBoardElements[i].src = redDice[myFinalValue - 1];
       myBoardElements[i].alt = `${myFinalValue}`;
       mySum += myFinalValue;
+      newMyDiceCount[myFinalValue - 1]++; // 새로운 판에서 나온 값 추가
 
       let comFinalValue = makeRandomNumber();
       comBoardElements[i].src = whiteDice[comFinalValue - 1];
       comBoardElements[i].alt = `${comFinalValue}`;
       comSum += comFinalValue;
-
-      //todo
-      // scoreboard에 위 코드의 최종 값을 불러와야댐
-      const p = document.querySelectorAll("p");
-
-      //todo
+      newComDiceCount[comFinalValue - 1]++; // 새로운 판에서 나온 값 추가
     }
 
+    // 기존 값에 새로운 값을 더해 누적 점수 유지
+    for (let i = 0; i < 6; i++) {
+      myDiceCount[i] += newMyDiceCount[i];
+      comDiceCount[i] += newComDiceCount[i];
+    }
+
+    // 점수 보드 업데이트 (누적된 개수 표시)
+    updateScoreboard();
+
     setTimeout(() => {
-      // 애니메이션 이후 값을 고정 및 반영하기 위해 0,5초 지연
-      if (mySum === comSum) {
-        alert("Draw!");
-      }
-      if (mySum > comSum) {
-        alert("You win!");
-      }
-      if (mySum < comSum) {
-        alert("Computer wins!");
-      }
-      console.log(mySum);
-      console.log(comSum);
+      if (mySum === comSum) alert("Draw!");
+      else if (mySum > comSum) alert("You win!");
+      else alert("Computer wins!");
     }, 500);
   }, 2000);
 };
