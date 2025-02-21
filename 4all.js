@@ -20,34 +20,19 @@ let redDice = [
 
 const button = document.querySelector("button");
 
-// 나의 값, 컴퓨터의 값을 저장할 배열 생성
-let myResult = [];
-let comResult = [];
-let myFinal;
-let comFinal;
-
-const makeRandomNumber = () => {
-  // 랜덤값 뱉는 함수
-  const value = Math.floor(Math.random() * 6 + 1);
-  return value;
-};
-
-const myDice = document.querySelector(".myDice");
-const comDice = document.querySelector(".comDice");
 const myBoard = document.querySelector(".myBoard");
 const comBoard = document.querySelector(".comBoard");
 
+// 게임판 중앙에 표시될 주사위 이미지 생성
 let myBoardElements = [];
 let comBoardElements = [];
 for (let i = 0; i < 4; i++) {
-  // 나의 주사위
   const myImg = document.createElement("img");
   myImg.alt = `My dice ${i + 1}`;
   myImg.src = redDice[0]; // 초기 1번면
   myBoard.appendChild(myImg);
   myBoardElements.push(myImg);
 
-  // 컴퓨터 주사위
   const comImg = document.createElement("img");
   comImg.alt = `Computer dice ${i + 1}`;
   comImg.src = whiteDice[0]; // 초기 1번면
@@ -55,60 +40,69 @@ for (let i = 0; i < 4; i++) {
   comBoardElements.push(comImg);
 }
 
-//   click 시 나/컴퓨터 배열에 랜덤값 4가지를 생성
+const makeRandomNumber = () => {
+  return Math.floor(Math.random() * 6 + 1);
+};
+
+// HTML의 점수판 p 태그들을 선택 (각각 6개씩 있어야 함)
+const myNumElements = document.querySelectorAll(".myNum p");
+const comNumElements = document.querySelectorAll(".comNum p");
+
 button.onclick = () => {
-  // 애니메이션 효과: 100ms 간격으로 주사위 값을 계속 업데이트
+  let finalMyValues = new Array(4);
+  let finalComValues = new Array(4);
+
+  // 0.15초 간격으로 주사위 이미지 업데이트 (애니메이션 효과)
   let intervalId = setInterval(() => {
-    for (let i = 0; i < 4; i++) {
+    for (i = 0; i < 4; i++) {
       let myValue = makeRandomNumber();
+      finalMyValues[i] = myValue;
       myBoardElements[i].src = redDice[myValue - 1];
       myBoardElements[i].alt = `${myValue}`;
 
       let comValue = makeRandomNumber();
+      finalComValues[i] = comValue;
       comBoardElements[i].src = whiteDice[comValue - 1];
       comBoardElements[i].alt = `${comValue}`;
     }
   }, 150);
 
+  // 2초 후 애니메이션 종료 및 현재 결과 기반 점수 계산
   setTimeout(() => {
-    // 2초 후 애니메이션 멈춤 및 최종 값 반영
     clearInterval(intervalId);
 
-    let mySum = 0;
-    let comSum = 0;
+    // 매 롤마다 현재 결과로 카운트를 새로 계산 (누적하지 않음)
+    let currentMyScoreCounts = [0, 0, 0, 0, 0, 0];
+    let currentComScoreCounts = [0, 0, 0, 0, 0, 0];
 
-    // 최종 값으로 다시 업데이트하고 합산
-    for (let i = 0; i < 4; i++) {
-      let myFinalValue = makeRandomNumber();
-      myBoardElements[i].src = redDice[myFinalValue - 1];
-      myBoardElements[i].alt = `${myFinalValue}`;
-      mySum += myFinalValue;
-
-      let comFinalValue = makeRandomNumber();
-      comBoardElements[i].src = whiteDice[comFinalValue - 1];
-      comBoardElements[i].alt = `${comFinalValue}`;
-      comSum += comFinalValue;
-
-      //todo
-      // scoreboard에 위 코드의 최종 값을 불러와야댐
-      const p = document.querySelectorAll("p");
-
-      //todo
+    for (i = 0; i < 4; i++) {
+      currentMyScoreCounts[finalMyValues[i] - 1] += 1;
+      currentComScoreCounts[finalComValues[i] - 1] += 1;
     }
 
-    setTimeout(() => {
-      // 애니메이션 이후 값을 고정 및 반영하기 위해 0,5초 지연
-      if (mySum === comSum) {
-        alert("Draw!");
-      }
-      if (mySum > comSum) {
-        alert("You win!");
-      }
-      if (mySum < comSum) {
-        alert("Computer wins!");
-      }
-      console.log(mySum);
-      console.log(comSum);
-    }, 500);
+    // 점수판 p 태그에 현재 결과 표시 (해당 숫자가 한 번도 안 나왔으면 "0" 표기)
+    for (i = 0; i < 6; i++) {
+      myNumElements[i].textContent = currentMyScoreCounts[i]
+        ? `${currentMyScoreCounts[i]}`
+        : "0";
+      comNumElements[i].textContent = currentComScoreCounts[i]
+        ? `${currentComScoreCounts[i]}`
+        : "0";
+    }
+
+    // reduce함수를 이용해 각 index의 결과값을 누적하여 mySum, comSum에 저장
+    let mySum = finalMyValues.reduce((acc, cur) => acc + cur, 0);
+    let comSum = finalComValues.reduce((acc, cur) => acc + cur, 0);
+
+    // mySum, comSum의 결과로 승패 결과 도출
+    if (mySum === comSum) {
+      alert("Draw!");
+    } else if (mySum > comSum) {
+      alert("You win!");
+    } else {
+      alert("Computer wins!");
+    }
+    console.log("My sum:", mySum);
+    console.log("Computer sum:", comSum);
   }, 2000);
 };
