@@ -25,6 +25,8 @@ body {
 
 .scoreBoard {
   width: 25%;
+  border: 3px solid;
+  border-radius: 8px;
 }
 
 .title {
@@ -34,11 +36,19 @@ body {
   align-items: center;
   font-size: 21px;
   font-weight: bolder;
+  background-color: #b48960;
 }
 
 .mySocreInfo {
   display: flex;
   height: 80%;
+}
+
+.myDice,
+.myNum,
+.comDice,
+.comNum {
+  background-color: #0e571a;
 }
 
 .myDice {
@@ -139,4 +149,13 @@ p {
   height: 100%;
   line-height: 200%;
   text-align: center;
+}
+
+body img {
+  background-color: #fff;
+  border-radius: 4px;
+}
+
+#game {
+  background-image: url("https://images.pexels.com/photos/129733/pexels-photo-129733.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
 }

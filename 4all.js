@@ -88,11 +88,13 @@ button.onclick = () => {
       comBoardElements[i].src = whiteDice[comFinalValue - 1];
       comBoardElements[i].alt = `${comFinalValue}`;
       comSum += comFinalValue;
-    }
 
-    //todo
-    // scoreboard에 위 코드의 최종 값을 불러와야댐
-    //todo
+      //todo
+      // scoreboard에 위 코드의 최종 값을 불러와야댐
+      const p = document.querySelectorAll("p");
+
+      //todo
+    }
 
     setTimeout(() => {
       // 애니메이션 이후 값을 고정 및 반영하기 위해 0,5초 지연

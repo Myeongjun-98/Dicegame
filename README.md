@@ -1,7 +1,7 @@
 # 개선 필요함
 
-1. alert 확인 시 주사위 이미지 변동 있음
-   append p 로 alert를 대신할 필요 있음
+<!-- 1. alert 확인 시 주사위 이미지 변동 있음
+   append p 로 alert를 대신할 필요 있음 --> > 해결함, alert로도 문제 없음
 
 2. 결과값의 숫자를 scoreBoard에 반영 필요
 
